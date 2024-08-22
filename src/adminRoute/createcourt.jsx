@@ -1,7 +1,8 @@
 export default function Addcourt(){
     return(
-        <>
-                 <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
+        <> 
+        <section className="p-5">
+        <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
             <h2 className="text-2xl font-semibold text-center mb-6">Add Court to Turf</h2>
             <form className="space-y-4">
                 <div>
@@ -52,6 +53,8 @@ export default function Addcourt(){
                 </button>
             </form>
         </div>
+        </section>
+           
         </>
     )
 }

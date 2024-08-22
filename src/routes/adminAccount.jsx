@@ -1,33 +1,25 @@
 import { useState ,useEffect } from "react"
-import { Link } from "react-router-dom";
-import axios from "axios";
-import Turf from "../components/turf";
-import { Outlet } from "react-router-dom";
-import BookingComponent from "../components/bookingComponent"
-import TurfAdmin from "../components/turfadmin";
-
+import {  useNavigate } from "react-router-dom";
 export default function AccountAdmin(){
-    const[view , setview] = useState("admindashboard")
-    const [turfs,setturf] = useState([]);
-    useEffect(()=>{
-       axios.get("http://localhost:3000/api/user/turf")
-       .then(res =>{
-           setturf(res.data)
-       })
-    },[])
+    const navigate = useNavigate()
+    const[view , setview] = useState("transactions")
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log(user)
+
    
     return(
     
         <>
             <section className="flex flex-row p-3">
              <div className="flex flex-col gap-5 w-1/3 justify-start items-center border-r-2 p-2 ">
-                <span class="material-symbols-outlined text-4xl">mood</span>
-                <span>Name</span>
-                <span>email</span>
-                <span>phone number</span>
+                <span className="material-symbols-outlined text-4xl">mood</span>
+                <span className="font-semibold">{user.username}</span>
+                <span>{user.email}</span>
+                <span>{user.phone}</span>
                 <button onClick={()=>setview("transactions")} className="bg-green-500 rounded-md shadow-md text-white  w-40">Transactions</button>
                 <button onClick={()=>setview("editprofile")} className="bg-green-500 rounded-md shadow-md text-white w-40">Edit profile</button>
-                <button onClick={()=>setview("admindashboard")} className="bg-green-500 rounded-md shadow-md text-white  w-40">Dashboard</button>
+                <button onClick={()=>navigate('/root/admindashboard')} className="bg-green-500 rounded-md shadow-md text-white  w-40">Dashboard</button>
+                <button onClick={()=>{navigate('/signin')}}  className="bg-green-500 rounded-md shadow-md text-white w-40">Logout</button>
              </div>
              <div className="flex flex-grow m-0 min-h-screen">
              
@@ -75,36 +67,14 @@ export default function AccountAdmin(){
                                    </div>
                            
                           </>)
-                }
-                {view === "admindashboard" && (
-                    <><section>
-                               <div className="flex flex-row justify-around ">
-                         <input className="p-2 border shadow-md rounded-md" type="text" name="" id="" placeholder="search"/>
-                          <Link to={'/root/profileadmin/createturf'} className="p-2 bg-green-500 rounded-md text-white">Add turf</Link>
-                         <button className="p-2 bg-green-500 rounded-md text-white">add manager</button>
-                     </div>
-
-                    <div className="grid grid-cols-2 gap-10 p-5">
-                      {
-                       turfs.map(t=>(
-                        <TurfAdmin key={t._id}{...t}/>
-                       ))
-
-
-
-                         }                 
-                      </div>
-                    </section>
-              
-                    </>
-                )}
+                          }
+                
+                   
+                
 
              </div>
             </section>
-            <div>
-                <Outlet/>
-            </div>
-
+            
         </>
     )
 }

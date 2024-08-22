@@ -52,7 +52,7 @@ export default function TurfSingle(){
               </div>
             </div>
             <div className="w-1/3 pt-16 pl-12 flex flex-col gap-6 pr-3">
-              <Link to={"/root/booking/"+turfid} state={{courts:turf.court,tname:turf.title,tplace:turf.city}} className="p-2 text-white bg-green-500 w-80 border rounded-md">Book now</Link>
+              <Link to={"/root/booking/"+turfid}  className="p-2 text-white bg-green-500 w-80 border rounded-md">Book now</Link>
              <div><h4>timing</h4>
              <span>6AM-12PM</span></div> 
               <div><h4>location</h4>

@@ -1,8 +1,24 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Center from "./center";
+import { useSelector } from "react-redux";
 
 export default function Root(){
+  const navigate = useNavigate()
+  const user = localStorage.getItem('role');
+  const roleBasedRoute = ()=>{
+    
+    if(user === 'user'){
+        
+        navigate('/root/profile')
+    }
+    else if( user === 'manager'){
+       navigate('/root/profilemanager')
+    }
+    else{
+      navigate('/root/profileadmin')
+    }
+  }
   return(
     <>
     <header className="h-20 flex flex-row justify-between items-center  p-2 border shadow-md">
@@ -17,14 +33,16 @@ export default function Root(){
             <ul className="flex flex-row justify-center items-center text-lg  gap-10 text-md text-slate-500 font-semibold pr-10 ">
                 <Link to={'home'}>
                 <li>
-                <span class="material-symbols-outlined">stadium</span></li></Link>
+                <span className="material-symbols-outlined">stadium</span></li></Link>
                 <Link to={'mybookings'}>
                 <li>
-                  <span class="material-symbols-outlined">sports</span>
+                  <span className="material-symbols-outlined">sports</span>
                   </li></Link>
-                <Link to={'profile'}>
-                <li>
-                <span class="material-symbols-outlined">person</span></li></Link>
+                <button onClick={roleBasedRoute}>
+                    <li>
+                      <span className="material-symbols-outlined">person</span>
+                    </li>
+                </button>
             </ul>
         </nav>
     </header>

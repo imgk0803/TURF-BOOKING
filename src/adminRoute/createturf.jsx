@@ -2,7 +2,8 @@ import { Link } from "react-router-dom"
 export default function AddTurf(){
     return(
         <>
-              <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
+            <section className="p-5">
+            <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
             <h2 className="text-2xl font-semibold text-center mb-6">Create New Turf</h2>
             <form className="space-y-4">
                 <div>
@@ -54,9 +55,10 @@ export default function AddTurf(){
                         required
                     />
                 </div>
-                <Link to={'/root/profileadmin/addcourt'} className=" bg-green-500 text-white p-2 rounded-md font-semibold hover:bg-green-600">Create Turf</Link>
+                <Link to={''} className=" bg-green-500 text-white p-2 rounded-md font-semibold hover:bg-green-600">Create Turf</Link>
             </form>
         </div>
+            </section>
         </>
     )
 }

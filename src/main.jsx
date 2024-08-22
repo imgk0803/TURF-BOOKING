@@ -19,6 +19,11 @@ import AccountAdmin from './routes/adminAccount';
 import Updateturf from './adminRoute/updateTurf';
 import AddTurf from './adminRoute/createturf';
 import Addcourt from './adminRoute/createcourt';
+import AdminDashboard from './adminRoute/adminDashboard';
+import AccountManager from './routes/managerAccount';
+import ManagerDashboard from './managerRoute/managerDashboard';
+import store from './app/store'
+import { Provider } from 'react-redux'
 
 const router = createBrowserRouter([
   {
@@ -72,21 +77,33 @@ const router = createBrowserRouter([
       {
         path:'profileadmin',
         element : <AccountAdmin/>,
-        children :[
-          {
-            path : 'updateturf/:turfid',
-            element : <Updateturf/>
-          },
-          {
-            path : 'createturf',
-            element : <AddTurf/>
-          },
-          {
-            path:'addcourt',
-            element: <Addcourt/>
-          }
-        ]
+      },
+      {
+          path : 'profilemanager',
+          element : <AccountManager/>
+      },
+      {
+          path : 'updateturf/:turfid',
+          element : <Updateturf/>
+      },
+      {
+          path : 'createturf',
+          element : <AddTurf/>
+      },
+      {
+          path:'addcourt',
+          element: <Addcourt/>
+      },
+      {
+        path:'admindashboard',
+        element: <AdminDashboard/>
+      },
+      {
+        path:'managerdashboard',
+        element: <ManagerDashboard/>
       }
+        
+      
 
     ], // root children ends here
   },
@@ -96,6 +113,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-   <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 )

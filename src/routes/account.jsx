@@ -1,11 +1,24 @@
-import { useState } from "react"
-import BookingComponent from "../components/bookingComponent"
+import { useEffect, useState } from "react"
+import axios from "axios"
 import { useNavigate } from "react-router-dom"
+
 
 export default function Account(){
     const navigate = useNavigate()
     const[view , setview] = useState("transaction")
+    const [payments, setpayments] = useState([])
     const user = JSON.parse(localStorage.getItem('user'))
+    useEffect(()=>{
+    console.log(user)
+          axios.get("http://localhost:3000/api/user/payments")
+          .then(res=> setpayments(res.data.filter(item=>user._id === item.user)))
+          .catch(err=>alert("something went wrong"))
+
+          
+          
+          
+    },[])
+   console.log(payments)
     return(
     
         <>
@@ -17,31 +30,27 @@ export default function Account(){
                 <span>{user.phone}</span>
                 <button onClick={()=>setview("transaction")} className="bg-green-500 rounded-md shadow-md text-white  w-40">Transactions</button>
                 <button onClick={()=>setview("editprofile")} className="bg-green-500 rounded-md shadow-md text-white w-40">Edit profile</button>
-                 <button onClick={()=>{navigate('/signin')}}  className="bg-green-500 rounded-md shadow-md text-white w-40">Logout</button>
+                 <button onClick={()=>{navigate('/signin',{new:true})}}  className="bg-green-500 rounded-md shadow-md text-white w-40">Logout</button>
              </div>
              <div className="flex flex-grow m-0 min-h-screen">
                 {
                     view === "transaction" && (<>
-                           <ul className="flex flex-col w-full gap-4 p-3">
-                            <li className="flex flex-row justify-between items-center border shadow-lg rounded-md p-3">
-                                <div className="flex flex-col"><span>date</span><span>27-9-24</span></div>
-                                <div className="flex flex-col"><span>Turf</span><span>royal</span></div>
-                                <div className="flex flex-col"><span>price</span><span>1500INR</span></div>
-                                <div className="flex flex-col"><span>status</span>paid</div>
-                            </li>
-                            <li className="flex flex-row justify-between items-center border shadow-lg rounded-md p-3">
-                                <div className="flex flex-col"><span>date</span><span>27-9-24</span></div>
-                                <div className="flex flex-col"><span>Turf</span><span>royal</span></div>
-                                <div className="flex flex-col"><span>price</span><span>1500INR</span></div>
-                                <div className="flex flex-col"><span>status</span>paid</div>
-                            </li>
-                            <li className="flex flex-row justify-between items-center border shadow-lg rounded-md p-3">
-                                <div className="flex flex-col"><span>date</span><span>27-9-24</span></div>
-                                <div className="flex flex-col"><span>Turf</span><span>royal</span></div>
-                                <div className="flex flex-col"><span>price</span><span>1500INR</span></div>
-                                <div className="flex flex-col"><span>status</span>paid</div>
-                            </li>
-                           </ul>
+                    
+                           <div className="flex flex-col w-full gap-4 p-3">
+                            {
+                                payments && payments.map(item=>(
+                                     
+                                <div className="flex flex-row justify-between items-center border shadow-lg rounded-md p-3">
+                                    <div className="flex flex-col"><span>date</span><span>{item.created && item.created.slice(0,10)}</span></div>
+                                    <div className="flex flex-col"><span>price</span><span>{item.amount}</span></div>
+                                    <div className="flex flex-col"><span>status</span>{item.p_status}</div>
+                                </div>
+
+                            
+
+                                ))
+                            }
+                           </div>
                           </> )} 
                           { view === "editprofile" && (<>
                                    <div className="flex flex-col gap-3 p-5 justify-center items-center w-full">

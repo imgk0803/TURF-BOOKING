@@ -1,12 +1,17 @@
 import { useState , useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useLocation, useParams } from "react-router-dom"
+import {useParams } from "react-router-dom"
 import BookingComponent from "../components/bookingComponent"
 import axios from "axios"
+import { useDispatch, useSelector } from "react-redux"
+import { addToCart, removeFromCart } from "../features/cart/cartslice"
 
 export default function Booking(){
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const cartItems = useSelector(state => state.cart) 
     const {turfid} = useParams()
+    const [click , setClick] = useState(false)
     const [message , setmessage] = useState('')
     const [turfname , setturfname] = useState('')
     const [courts , setCourts] = useState([])
@@ -21,10 +26,11 @@ export default function Booking(){
               setCourts(res.data.turf.court)
               setplace(res.data.turf.city)
               setturfname(res.data.turf.title)
+              console.log(cartItems)
               
             }
             )
-    },[])
+    },[click])
     const handlechange = async(e)=>{
     e.preventDefault()
       try{  
@@ -54,12 +60,27 @@ export default function Booking(){
           }
 
           const response = await axios.post(`http://localhost:3000/api/user/${userid}/court/${courtid}`,reqbody)
+          const booking = {
+            turfname :turfname,
+            courtname : selectedCourt.sport,
+            size : selectedCourt.size,
+            date : date,
+            time : timeselected,
+            price : selectedCourt.price,
+            bookingid : response.data._id
+          }
           console.log(response)
+          const bookingform  = document.getElementsByName('bookingform')
+          bookingform.forEach(form=> form.reset())
+          setClick(!click)
           if(response.data === "this time slot isnt available"){
             setmessage(response.data)
           }
           else{
             setmessage('')
+            dispatch(addToCart(booking))
+       
+
           }
          
 
@@ -68,20 +89,25 @@ export default function Booking(){
        console.log("error::",err)
       }
    }
-  /* const loadBooking = async()=>{
+  const removeBooking = async(id)=>{
       try{
-
+        dispatch(removeFromCart(id))
+        const res  = await axios.delete(`http://localhost:3000/api/user/deletebooking/${id}`)
+        console.log(id)
+        console.log(res.data)
+        setClick(!click)
       }
       catch(err){
               console.log("error::", err)
       }
-   }*/
+   }
+   
     return(
         <><section className="grid grid-cols-2 p-10">
              <div>
                 <h2 className="p-1 font-semibold text-2xl">{turfname}</h2>
                 <span className="p-1 text-lg">{place}</span>
-                <form onSubmit={addBooking} action="submit" className="flex flex-col gap-10 border rounded-md shadow-md py-8">
+                <form name="bookingform" onSubmit={addBooking} action="submit" className="flex flex-col gap-10 border rounded-md shadow-md py-8">
                     <div className="flex flex-row gap-5 items-center justify-around">
                     <label className="font-semibold" htmlFor="court">Sports:</label>
                     <select onChange={handlechange} name="court" id="court" className=" shadow-md text-slate-600 border border-slate-200 p-1 h-8 rounded-md w-48 outline-none">
@@ -113,8 +139,8 @@ export default function Booking(){
                       </div>
                       {message && (<div ><span className="flex items-center justify-center p-1 text-red-500">{message}</span></div>)}
                       <div className="grid grid-cols-2" >
-                        <div className="flex flex-col gap-3 p-2 pl-20">
-                        <h4>court details</h4>
+                        <div className="flex flex-col text-lg font-semibold items-start justify-start gap-3 p-2 pl-20">
+                        <h4>{selectedCourt.sport}</h4>
                         <span>{selectedCourt.size}</span>
                         <span>{selectedCourt.description}</span>
                         <span>{selectedCourt.price}</span>
@@ -125,28 +151,33 @@ export default function Booking(){
              </div>
              <div className="p-10 ">
               <div className="flex flex-col gap-5 w-72 mx-auto">
-                    <div className="flex flex-row justify-between p-3  border-b border-slate-400"><h2>cart<span>(3)</span></h2>
-                          <span className="material-symbols-outlined text-red-600">delete</span>
-                     </div>
-                     <div className="flex flex-col gap-3 ">
-                        <div className="flex flex-col gap-1 p-1">
-                        <BookingComponent/>
-                        <button className="bg-red-700 text-white rounded-lg border shadow-lg hover:bg-red-400 transition-all duration-100 ">Delete from cart</button>
-                        </div>
-                        <div className="flex flex-col gap-1 p-1">
-                        <BookingComponent/>
-                        <button className="bg-red-700 text-white rounded-lg border shadow-lg hover:bg-red-400 transition-all duration-100 ">Delete from cart</button>
-                        </div>
-                        <div className="flex flex-col gap-1 p-1">
-                        <BookingComponent/>
-                        <button className="bg-red-700 text-white rounded-lg border shadow-lg hover:bg-red-400 transition-all duration-100 ">Delete from cart</button>
-                        </div>
-                      
+                    <div className="flex flex-row justify-between p-3  border-b border-slate-400">
+                      <h2 className="font-semibold">CART<span>({cartItems.quantity})</span></h2>
+                    </div>
+                    {
+                      cartItems.items && cartItems.items.map((items,index) =>{
+                        return(
+                          
+                            <div key={index} className="flex flex-col gap-3 ">
+                            <div className="flex flex-col gap-4 border border-gray-300 p-4 rounded-lg shadow-md bg-white">
+                               <div className="flex flex-row justify-between">
+                                <h2 className="text-xl font-semibold text-gray-800">{items.turfname}</h2>
+                                 <button onClick={()=>{removeBooking(items.bookingid)}}><span className="material-symbols-outlined text-red-600">delete</span></button></div>
+                              <div className="flex flex-row justify-between items-center">
+                                  <span className="text-lg font-semibold text-gray-800">{items.courtname}</span>
+                                  <span>{items.size}</span>
+                              </div>
+                              <span className="text-gray-600">{items.date}</span>
+                              <span className="text-gray-600">{items.time.start}-{items.time.end}</span>
+                              <span className="text-lg font-semibold text-gray-800">{items.price}</span>
+                             </div>
+                           </div>
                         
-
-                        
-                     </div>
-                     <Link to="/root/checkout"className="w-72 p-3 bg-green-500 border text-white rounded-lg">Procced to checkout</Link>
+                        )
+                      })
+                    }
+                   
+                     <Link to={{pathname :"/root/checkout", state:{ turf : turfname }}}className="w-72 p-3 bg-green-500 border text-white rounded-lg">Procced to checkout</Link>
               </div>
              </div>
         </section>

@@ -1,16 +1,31 @@
+import axios from "axios";
 import { useState } from "react";
 
 
-export default function Review({toggle}){
+export default function Review({toggle,turf_id}){
     const[rating,setRating] = useState(0);
     const [review,setReview] = useState('')
+    const userid = JSON.parse(localStorage.getItem('user'))._id
     const handleRating = (rate) => {
         setRating(rate);
       };
-    const handleSubmit = (e) =>{
+    const handleSubmit = async(e) =>{
         e.preventDefault()
-        console.log(`Review for`, rating, review);
-             toggle();
+   try{
+    
+    const res = await axios.post('http://localhost:3000/api/user/turf/addreview',{
+      rating : rating,
+      turfreview : review,
+      turfid : turf_id,
+      userid : userid
+    })
+    console.log(res)
+    toggle();
+   }
+   catch(err){
+
+   }
+           
     }
  return(
     <>

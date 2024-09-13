@@ -23,7 +23,7 @@ export default function MyBookings(){
                 <h2 className="text-2xl font-bold p-2">My Bookings </h2>
                 <div className="p-5 flex flex-col gap-3 ">
                 {
-                    bookings && bookings.map((item,index)=>{
+                    bookings && bookings.length > 0 ?( bookings.map((item,index)=>{
                         let start = item.timeslot.start + "am"
                         let end = item.timeslot.end + "am"
                        
@@ -55,7 +55,12 @@ export default function MyBookings(){
                         </div>
                         </div> 
                         
-                    )})
+                    )})):(
+                        <div className="flex justify-center items-center p-5">
+                        <p className="text-lg text-gray-600">No bookings found</p>
+                    </div>
+
+                    )
                 }
                  
              </div>

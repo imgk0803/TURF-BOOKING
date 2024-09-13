@@ -20,13 +20,15 @@ export default function Booking(){
     const[selectedCourt ,setCourt] = useState('')
     const[date , setdate] = useState('')
     const[time , settime] = useState('')
+    const[today ,setToday] = useState({})
     useEffect(()=>{
             axios.get(`http://localhost:3000/api/user//turf/getcourt/${turfid}`)
             .then(res=>{
               setCourts(res.data.turf.court)
               setplace(res.data.turf.city)
               setturfname(res.data.turf.title)
-              console.log(cartItems)
+              setToday(new Date().toISOString().split('T')[0])
+
               
             }
             )
@@ -103,7 +105,10 @@ export default function Booking(){
    }
    
     return(
-        <><section className="grid grid-cols-2 p-10">
+        <>
+        <button onClick={()=>{navigate(-1)}} className="bg-green-500 text-white m-2 p-1 rounded-md">Back</button>
+        <section className="grid grid-cols-2 p-10">
+          
              <div>
                 <h2 className="p-1 font-semibold text-2xl">{turfname}</h2>
                 <span className="p-1 text-lg">{place}</span>
@@ -121,18 +126,41 @@ export default function Booking(){
                     </div>
                      <div className="flex flex-row gap-5 items-center justify-around">
                      <label className="font-semibold" htmlFor="court">Date:</label>
-                     <input onChange={(e)=>{setdate(e.target.value)}} className=" shadow-md text-slate-600 border border-slate-200 p-1 h-8 rounded-md w-48 outline-none" type="date" id="bookdate" name="bookdate" min={new Date().toISOString().split('T')[0]}/>
+                     <input onChange={(e)=>{setdate(e.target.value)}} className=" shadow-md text-slate-600 border border-slate-200 p-1 h-8 rounded-md w-48 outline-none" type="date" id="bookdate" name="bookdate" 
+                     min={today}
+                     max={today} />
                      </div>
                      <div className="flex flex-row gap-5 items-center justify-around">
                        <label className="font-semibold" htmlFor="court">Timeslot:</label>
                        <select onChange={(e)=>{settime(e.target.value)}} name="timeslot" id="timeslot" className=" shadow-md text-slate-600 border border-slate-200 p-1 h-8 rounded-md w-48 outline-none">
                     <option value="placeholder">--choose an option---</option>
-                            {timeslot && timeslot .filter((ts) => !ts.booked).map((ts) => (
+                            {timeslot && timeslot .filter((ts) => !ts.booked).map((ts) =>{
+                            let start = ts.start + "am"
+                            let end = ts.end + "am"
+                           
+                            if(ts.start > 12){
+                              if(ts.end === 24){
+                                 start = ts.start - 12+ "pm"
+                                 end = ts.end -12 + "am"
+                              }else{
+                                   start = ts.start - 12 + "pm"
+                                 end = ts.end - 12 + "pm"
+                              }
+                                
+                               
+    
+                            }
+                            else if(ts.start === 12){
+                                end = ts.end - 12 + "pm"
+                                start = ts.start + "pm"
+                            }
+                       
+                             return (
                           <option
                           className="p-1 text-sm font-mono hover:bg-green-400 rounded-md" key={ts._id} value={ts._id}>
-                          {ts.start} - {ts.end}
+                          {start} - {end}
                           </option>
-                        ))
+                        )})
                         }
                   </select>
                  

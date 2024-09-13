@@ -121,7 +121,7 @@ useEffect(()=>{
 
         </tbody>
     </table>
-    <button onClick={addPayment} className="border rounded-md bg-green-500 text-white shadow-md ">Pay{totalPrice}</button>
+    <button onClick={addPayment} className="border rounded-md bg-green-500 text-white shadow-md ">Pay{totalPrice + 8.97}</button>
     </div>
 
         </div>

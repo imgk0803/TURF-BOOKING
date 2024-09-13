@@ -91,7 +91,7 @@ const router = createBrowserRouter([
           element : <AddTurf/>
       },
       {
-          path:'addcourt',
+          path:'addcourt/:turfid',
           element: <Addcourt/>
       },
       {

@@ -25,7 +25,7 @@ export default function Root(){
   },[theme])
   const handleSubmit = async(e)=>{
      try{
-      const res = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=10&appid=${geoApi}`)
+      const res = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=10&appid=${geoApi}`)
       setCityResults(res.data)
      }
      catch(err){
@@ -56,7 +56,7 @@ export default function Root(){
     }
   }
   return(
-    <>
+    <div>
     <header className="z-10 h-16 flex flex-row dark:bg-gray-900 dark:text-slate-500 justify-between items-center  p-2 shadow-sm fixed bg-white w-full">
         <h1 className="text-2xl font-mono pl-5  text-green-500">BOOKmyTURF</h1>
         <div className="relative flex flex-col justify-start items-start">
@@ -175,6 +175,6 @@ export default function Root(){
 
 
 
-    </>
+    </div>
   )
 }

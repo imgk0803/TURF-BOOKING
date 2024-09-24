@@ -34,7 +34,7 @@ export default function AdminDashboard(){
             }
         });
     } catch (error) {
-        console.error("Error updating timeslots:", error.response ? error.response.data : error.message); // Handle errors
+        console.error(error);
     }
 };
 

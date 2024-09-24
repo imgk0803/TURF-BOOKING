@@ -12,7 +12,7 @@ const bookings = useSelector(state =>state.cart.items)
 const totalPrice = bookings && bookings.reduce((sum,item)=> sum + item.price , 0 );
 const user = JSON.parse(localStorage.getItem('user'))
 useEffect(()=>{
-    axios.get('http://localhost:3000/api/user/razorpaykey')
+    axios.get('https://turfbooking-backend.onrender.com/api/user/razorpaykey')
     .then(res=>{
         setKey(res.data)
     })
@@ -30,7 +30,7 @@ useEffect(()=>{
         const reqbody = {
             total : totalPrice
         }
-        const response  = await axios.post("http://localhost:3000/api/user/createorder",reqbody)
+        const response  = await axios.post("https://turfbooking-backend.onrender.com/api/user/createorder",reqbody)
             if (!response) {
             alert('Failed to create order. Please try again.');
             return;
@@ -47,7 +47,7 @@ useEffect(()=>{
             handler: async (response) => {
          
                 try {
-                    const verificationResponse = await axios.post("http://localhost:3000/api/user/verifypayment", {
+                    const verificationResponse = await axios.post("https://turfbooking-backend.onrender.com/api/user/verifypayment", {
                     pay_id: response.razorpay_payment_id,
                     order_id: response.razorpay_order_id,
                     signature: response.razorpay_signature,

@@ -14,7 +14,7 @@ export default function ManagerDashboard(){
     const user = JSON.parse(localStorage.getItem('user'))
     const [today ,setToday ]= useState('')
     useEffect(()=>{
-            axios.get(`http://localhost:3000/api/manager/getmanagerbookings/${user._id}`,{
+            axios.get(`https://turfbooking-backend.onrender.com/api/manager/getmanagerbookings/${user._id}`,{
                headers : {
                "Authorization" : `Bearer ${token}`
            }})
@@ -49,7 +49,7 @@ export default function ManagerDashboard(){
                  end
             
         }
-        await axios.patch(`http://localhost:3000/api/manager/court/${courtid}/booking/${selectedBooking}`,body,{
+        await axios.patch(`https://turfbooking-backend.onrender.com/api/manager/court/${courtid}/booking/${selectedBooking}`,body,{
             headers : {
                 'Authorization' : `Bearer ${token}`
             }
@@ -69,7 +69,7 @@ export default function ManagerDashboard(){
     const cancelBooking = async(id)=>{
 
         try{
-            await axios.patch(`http://localhost:3000/api/manager/cancelbooking/${selectedBooking}`,{},{
+            await axios.patch(`https://turfbooking-backend.onrender.com/api/manager/cancelbooking/${selectedBooking}`,{},{
                 headers : {
                     'Authorization' : `Bearer ${token}`
                 }

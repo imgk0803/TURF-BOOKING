@@ -6,7 +6,7 @@ export default function MyBookings(){
     const user  = JSON.parse(localStorage.getItem('user'))
     const [bookings, setbookings] = useState([])
     useEffect(()=>{
-        axios.get("http://localhost:3000/api/user/bookings")
+        axios.get("https://turfbooking-backend.onrender.com/api/user/bookings")
         .then(res=> {
         setbookings(res.data.filter(item =>user._id === item.user ));
        

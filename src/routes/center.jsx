@@ -8,7 +8,7 @@ const[turfListing , setList] = useState([])
 const [turfs,setturf] = useState([]);
 const [searchTerm , setSearchTerm] = useState('')
    useEffect(()=>{
-       axios.get("http://localhost:3000/api/user/turf")
+       axios.get("https://turfbooking-backend.onrender.com/api/user/turf")
       .then(res =>{
        
           setturf(res.data)

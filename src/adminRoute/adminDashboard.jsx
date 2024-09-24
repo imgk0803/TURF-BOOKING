@@ -13,7 +13,7 @@ export default function AdminDashboard(){
         setSeen(!seen)
     }
     useEffect(()=>{
-       axios.get("http://localhost:3000/api/user/turf")
+       axios.get("https://turfbooking-backend.onrender.com/api/user/turf")
        .then(res =>{
            setturf(res.data)
        })
@@ -28,7 +28,7 @@ export default function AdminDashboard(){
     const token = localStorage.getItem('token');
     
     try {
-        const response = await axios.post("http://localhost:3000/api/admin/update-timeslots", null, {
+        const response = await axios.post("https://turfbooking-backend.onrender.com/api/admin/update-timeslots", null, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -41,7 +41,7 @@ export default function AdminDashboard(){
     const resetslot = async()=>{
         const token = localStorage.getItem('token')
         try{
-            await axios.post("http://localhost:3000/api/admin/reset-slots",null,{
+            await axios.post("https://turfbooking-backend.onrender.com/api/admin/reset-slots",null,{
                 headers : {
                     'Authorization' : `Bearer ${token}`
                 }

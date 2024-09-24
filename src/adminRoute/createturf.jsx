@@ -26,7 +26,7 @@ export default function AddTurf(){
           formdata.append("image",image)       
           }
         const token = localStorage.getItem('token')
-        await axios.post("http://localhost:3000/api/admin/turf",formdata,{
+        await axios.post("https://turfbooking-backend.onrender.com/api/admin/turf",formdata,{
             headers : {
                 "Authorization" : `Bearer ${token}`,
                 "Content-Type" : 'multipart/form-data'

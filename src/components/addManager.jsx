@@ -17,7 +17,7 @@ const handleSubmit=async(e)=>{
         role : "manager",
         password,
        }
-       const response = await axios.post('http://localhost:3000/api/admin/addmanager',body, {
+       const response = await axios.post('https://turfbooking-backend.onrender.com/api/admin/addmanager',body, {
         headers: {
           Authorization: `Bearer ${token}`
         }

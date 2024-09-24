@@ -21,7 +21,7 @@ export default function TurfSingle(){
     };
 
      useEffect(()=>{
-          axios.get(`http://localhost:3000/api/user/getoneturf/${turfid}`)
+          axios.get(`https://turfbooking-backend.onrender.com/api/user/getoneturf/${turfid}`)
           .then(res=>{
             setReview(res.data.reviews)
             setturf(res.data)

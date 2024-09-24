@@ -19,7 +19,7 @@ export const getSortedTurfs = (city) => async (dispatch) => {
   try {
     const { lat, lon } = city;
     const response = await axios.get(
-      `http://localhost:3000/api/user/turfs?lat=${lat}&lon=${lon}`
+      `https://turfbooking-backend.onrender.com/api/user/turfs?lat=${lat}&lon=${lon}`
     );
     
     dispatch(setSortedTurfs({sorted : response.data,

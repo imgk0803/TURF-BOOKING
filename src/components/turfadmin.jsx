@@ -9,7 +9,7 @@ export default function TurfAdmin({_id,city,dist,image,court}){
     const [ratings ,setRatings] = useState()
     const[title ,setTitle] = useState('')
     useEffect(()=>{
-         axios.get(`http://localhost:3000/api/user/getoneturf/${_id}`)
+         axios.get(`https://turfbooking-backend.onrender.com/api/user/getoneturf/${_id}`)
          .then(res => {
             setReview(averageRating(res.data.reviews));
             setRatings(res.data.reviews.length)

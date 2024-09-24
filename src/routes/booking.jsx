@@ -21,7 +21,7 @@ export default function Booking(){
     const[time , settime] = useState('')
     const[today ,setToday] = useState({})
     useEffect(()=>{
-            axios.get(`http://localhost:3000/api/user//turf/getcourt/${turfid}`)
+            axios.get(`https://turfbooking-backend.onrender.com/api/user//turf/getcourt/${turfid}`)
             .then(res=>{
               setCourts(res.data.turf.court)
               setplace(res.data.turf.city)
@@ -64,7 +64,7 @@ export default function Booking(){
             price : price
           }
 
-          const response = await axios.post(`http://localhost:3000/api/user/${userid}/court/${courtid}`,reqbody)
+          const response = await axios.post(`https://turfbooking-backend.onrender.com/api/user/${userid}/court/${courtid}`,reqbody)
           const booking = {
             turfname :turfname,
             courtname : selectedCourt.sport,
@@ -96,7 +96,7 @@ export default function Booking(){
   const removeBooking = async(id)=>{
       try{
         dispatch(removeFromCart(id))
-        const res  = await axios.delete(`http://localhost:3000/api/user/deletebooking/${id}`)
+        const res  = await axios.delete(`https://turfbooking-backend.onrender.com/api/user/deletebooking/${id}`)
         setClick(!click)
       }
       catch(err){

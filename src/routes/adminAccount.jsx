@@ -20,7 +20,7 @@ export default function Accountadmin(){
     const user = JSON.parse(localStorage.getItem('user'))
     const token = localStorage.getItem('token')
     useEffect(()=>{
-          axios.get("http://localhost:3000/api/user/payments")
+          axios.get("https://turfbooking-backend.onrender.com/api/user/payments")
           .then(res=> setpayments(res.data.filter(item=>user._id === item.user)))
           .catch(err=>alert("something went wrong"))
           setUsername(user.username);
@@ -48,7 +48,7 @@ export default function Accountadmin(){
                 password : password,
                 confirm : confirm
             }
-            const res = await axios.patch('http://localhost:3000/api/user/updatepwd' , body)
+            const res = await axios.patch('https://turfbooking-backend.onrender.com/api/user/updatepwd' , body)
             setmessage(res.data)
             setTimeout(()=>{
                 setconfirm('');
@@ -72,7 +72,7 @@ export default function Accountadmin(){
             email : email , 
             phone : phone
            }
-           const res = await axios.patch('http://localhost:3000/api/user/updateprofile' , body)
+           const res = await axios.patch('https://turfbooking-backend.onrender.com/api/user/updateprofile' , body)
            localStorage.setItem('user',JSON.stringify(res.data.updateduser))
         }
         catch(err){

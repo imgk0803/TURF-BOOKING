@@ -21,7 +21,7 @@ export default function Addcourt(){
            price,
            size
         }
-         axios.post(`http://localhost:3000/api/admin/addcourt/${turfid}`,body,{
+         axios.post(`https://turfbooking-backend.onrender.com/api/admin/addcourt/${turfid}`,body,{
             headers : {
                 'Authorization':`Bearer ${token}`
             }

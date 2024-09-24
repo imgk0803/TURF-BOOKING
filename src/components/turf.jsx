@@ -8,7 +8,7 @@ export default function Turf({_id,title,city,dist,image,court}){
     const newCourt = court.map(c=>c.sport)
     const sports = [... new Set(newCourt) ]
     useEffect(()=>{
-         axios.get(`http://localhost:3000/api/user/getoneturf/${_id}`)
+         axios.get(`/api/user/getoneturf/${_id}`)
          .then(res => {
             setReview(averageRating(res.data.reviews));
             setRatings(res.data.reviews.length)

@@ -13,7 +13,7 @@ export default function UpdateCourt({_id,sport , description ,size , price}){
                     price : inputPrice,
                     courtid : _id
                 }
-                axios.post('http://localhost:3000/api/admin/updatecourt',body,{
+                axios.post('https://turfbooking-backend.onrender.com/api/admin/updatecourt',body,{
                     headers : {
                         'Authorization' : `Bearer ${token}`
                     }

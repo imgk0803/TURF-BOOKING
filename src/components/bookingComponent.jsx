@@ -6,7 +6,7 @@ export default function BookingComponent({bookingid , courtname,size,price,time,
     const removeBooking = async(id)=>{
         try{
           dispatch(removeFromCart(id))
-          const res  = await axios.delete(`http://localhost:3000/api/user/deletebooking/${id}`)
+          const res  = await axios.delete(`https://turfbooking-backend.onrender.com/api/user/deletebooking/${id}`)
         }
         catch(err){
                 console.log("error::", err)

@@ -32,7 +32,7 @@ export default function AddTurf(){
                 "Content-Type" : 'multipart/form-data'
             }
         })
-        .then(res=>console.log(res.data))
+        .then(res=>console.log("turf added"))
      }
      catch(err){
         console.log(err)
@@ -40,13 +40,13 @@ export default function AddTurf(){
     }
     return(
         <>
-            <section className="p-5">
+            <section className="p-5 dark:bg-gray-900">
                 <button onClick={()=>{navigate(-1)}} className="p-1 bg-green-500 rounded-md text-white">Back</button>
-            <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
-            <h2 className="text-2xl font-semibold text-center mb-6">Create New Turf</h2>
-            <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className="max-w-md mx-auto bg-white shadow-md rounded-md dark:bg-gray-950 p-6">
+            <h2 className="text-2xl font-semibold dark:text-gray-300 text-center mb-6">Create New Turf</h2>
+            <form className="space-y-4 dark:bg-gray-950" onSubmit={handleSubmit}>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm dark:text-gray-300  font-medium text-gray-700">
                         Name:
                     </label>
                     <input
@@ -54,12 +54,12 @@ export default function AddTurf(){
                         name = 'turfname'
                         onChange={(e)=>{setTitle(e.target.value)}}
                         value={title}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border dark:bg-gray-900 border-gray-300 rounded-md p-2"
                         required
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Manager (email):
                     </label>
                     <input
@@ -67,12 +67,12 @@ export default function AddTurf(){
                         name="manager"
                         onChange={(e)=>{setManager(e.target.value)}}
                         value={manager}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1  dark:bg-gray-900 block w-full border border-gray-300 rounded-md p-2"
                         required
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         City:
                     </label>
                     <input
@@ -81,12 +81,12 @@ export default function AddTurf(){
                         onChange={(e)=>{setCity(e.target.value)}}
                         value={city}
 
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1  dark:bg-gray-900 block w-full border border-gray-300 rounded-md p-2"
                         required
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm dark:text-gray-300 font-medium text-gray-700">
                         District:
                     </label>
                     <input
@@ -95,12 +95,12 @@ export default function AddTurf(){
                         onChange={(e)=>{setDist(e.target.value)}}
                         value={dist}
 
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2 dark:bg-gray-900"
                         required
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium dark:text-gray-300 text-gray-700">
                         Latitude:
                     </label>
                     <input
@@ -109,12 +109,12 @@ export default function AddTurf(){
                         onChange={(e)=>{setLatitude(e.target.value)}}
                         value={latitude}
 
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border dark:bg-gray-900 border-gray-300 rounded-md p-2"
                         required
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium dark:text-gray-300 text-gray-700">
                         Longitude:
                     </label>
                     <input
@@ -123,12 +123,12 @@ export default function AddTurf(){
                         onChange={(e)=>{setLongitude(e.target.value)}}
                         value={longitude}
 
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2 dark:bg-gray-900"
                         required
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block dark:text-gray-300 text-sm font-medium text-gray-700">
                         Description:
                     </label>
                     <textarea
@@ -136,12 +136,12 @@ export default function AddTurf(){
                     onChange={(e)=>{setDescription(e.target.value)}}
                     value={description}
 
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border border-gray-300 dark:bg-gray-900 rounded-md p-2"
                         rows="3"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium dark:text-gray-300 text-gray-700">
                         Image:
                     </label>
                     <input
@@ -149,7 +149,7 @@ export default function AddTurf(){
                        name="image"
                        onChange={(e)=>{setImage(e.target.files[0])}}
                        
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border dark:bg-gray-900 border-gray-300 rounded-md p-2"
                         required
                     />
                 </div>

@@ -7,8 +7,6 @@ export default function BookingComponent({bookingid , courtname,size,price,time,
         try{
           dispatch(removeFromCart(id))
           const res  = await axios.delete(`http://localhost:3000/api/user/deletebooking/${id}`)
-          console.log(id)
-          console.log(res.data)
         }
         catch(err){
                 console.log("error::", err)
@@ -17,17 +15,17 @@ export default function BookingComponent({bookingid , courtname,size,price,time,
 
     return (
         <>
-            <div className="flex flex-col gap-4 border border-gray-300 p-4 rounded-lg shadow-md bg-white">
+            <div className="flex flex-col gap-4 border dark:border-gray-950 border-gray-300 p-4 rounded-lg shadow-md dark:bg-gray-950 bg-white">
                 <div className="flex flex-row justify-between">
-                <h2 className="text-xl font-semibold text-gray-800">{turfname}</h2>
+                <h2 className="text-xl dark:text-gray-300 font-semibold text-gray-800">{turfname}</h2>
                 <button onClick={()=>{removeBooking(bookingid)}}><span className="material-symbols-outlined text-red-600">delete</span></button></div>
                 <div className="flex flex-row justify-between items-center">
-                    <span className="text-lg font-semibold text-gray-800">{courtname}</span>
-                     <span>{size}</span>
+                    <span className="dark:text-gray-300 text-lg font-semibold text-gray-800">{courtname}</span>
+                     <span className="dark:text-gray-300">{size}</span>
                 </div>
-                <span className="text-gray-600">{date}</span>
-                <span className="text-gray-600">{time.start}-{time.end}</span>
-                <span className="text-lg font-semibold text-gray-800">{price}</span>
+                <span className="dark:text-gray-300 text-gray-600">{date}</span>
+                <span className="text-gray-600 dark:text-gray-300">{time.start}-{time.end}</span>
+                <span className="text-lg font-semibold text-gray-800 dark:text-gray-300">{price}</span>
             </div>
         </>
     );

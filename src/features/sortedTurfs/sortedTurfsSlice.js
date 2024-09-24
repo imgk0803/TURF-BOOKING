@@ -3,11 +3,13 @@ import axios from "axios";
 export const sortedTurfSlice = createSlice({
   name : 'turfs',
   initialState :{
-       SortedTurf : []
+       SortedTurf : [],
+       city : ''
   } ,
   reducers : {
     setSortedTurfs : (state,action)=>{
-         state.SortedTurf = action.payload
+         state.SortedTurf = action.payload.sorted
+         state.city = action.payload.city.name
     }
   }
 })
@@ -19,7 +21,10 @@ export const getSortedTurfs = (city) => async (dispatch) => {
     const response = await axios.get(
       `http://localhost:3000/api/user/turfs?lat=${lat}&lon=${lon}`
     );
-    dispatch(setSortedTurfs(response.data));
+    
+    dispatch(setSortedTurfs({sorted : response.data,
+      city : city
+    }));
   } catch (err) {
     console.error(err);
   }

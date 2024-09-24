@@ -1,19 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import BookingComponent from "../components/bookingComponent";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { clearCart } from "../features/cart/cartslice";
 export default function Checkout(){
 const navigate  = useNavigate()
 const dispatch = useDispatch()
+const [razorpaykey, setKey] = useState('')
 const bookings = useSelector(state =>state.cart.items)
 const totalPrice = bookings && bookings.reduce((sum,item)=> sum + item.price , 0 );
 const user = JSON.parse(localStorage.getItem('user'))
 useEffect(()=>{
-    console.log("cartitems>>",bookings)
-    console.log("the totalprice>>",totalPrice)
-    console.log("user>>",user)
+    axios.get('http://localhost:3000/api/user/razorpaykey')
+    .then(res=>{
+        setKey(res.data)
+    })
+    .catch(err=>console.log(err))
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
@@ -28,13 +31,12 @@ useEffect(()=>{
             total : totalPrice
         }
         const response  = await axios.post("http://localhost:3000/api/user/createorder",reqbody)
-        console.log("response>>",response.data)
             if (!response) {
             alert('Failed to create order. Please try again.');
             return;
             }
         const options = {
-            key : "rzp_test_gPDvIx3dsJobeU",
+            key : razorpaykey ,
             amount: response.data.amount.toString(),
             currency: response.data.currency,
             name: "Turf Booking",
@@ -52,7 +54,6 @@ useEffect(()=>{
                     user: user._id,
                     bookingsid : bookingids,
                     });
-                    console.log("verification response >> ",verificationResponse)
                     if (verificationResponse.status === 200) {
                     alert('Payment successful');
                     dispatch(clearCart())
@@ -103,26 +104,43 @@ useEffect(()=>{
                 
                   
              </div>
-             <div class="flex flex-col gap-3 mx-auto bg-white rounded-lg overflow-hidden">
-          <table class="w-full border-collapse border-slate-300 shadow-md">
-          <tbody>
-            <tr class="bg-gray-100">
-                <td class="p-4 text-gray-700">Court Price</td>
-                <td class="p-4 text-right text-gray-700">{totalPrice}INR</td>
-            </tr>
-            <tr>
-                <td class="p-4 text-gray-700">Convenience Fee</td>
-                <td class="p-4 text-right text-gray-700">INR 8.97</td>
-            </tr>
-            <tr>
-                <td class="p-4 text-gray-700 font-bold">Total Amount</td>
-                <td class="p-4 text-right text-gray-700 font-bold">{totalPrice + 8.97}INR</td>
-            </tr>
+       {
+        bookings.length > 0 ? (
+            <table className="w-1/2 mx-auto border-collapse border-slate-300 shadow-md dark:bg-gray-950 ">
+            <tbody>
+                <tr className="bg-gray-100  dark:bg-gray-950">
+                    <td className="p-4 dark:text-gray-300 text-gray-700">Court Price</td>
+                    <td className=" dark:text-gray-300 p-4 text-right text-gray-700">{totalPrice} INR</td>
+                </tr>
+                <tr>
+                  <td className="p-4  dark:text-gray-300 text-gray-700">Convenience Fee</td>
+                <td className="p-4 dark:text-gray-300 text-right text-gray-700">INR 8.97</td>
+                </tr>
+                <tr>
+                    <td className="p-4  dark:text-gray-300 text-gray-700 font-bold">Total Amount</td>
+                    <td className="p-4  dark:text-gray-300 text-right text-gray-700 font-bold">{totalPrice + 8.97} INR</td>
+                </tr>
+                <tr>
+                <td colSpan="2" className="p-0">
+                    <button 
+                    onClick={addPayment} 
+                    className="w-full  border rounded-md bg-green-500 text-white shadow-md"
+                    >
+                    Pay {totalPrice + 8.97} INR
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        ):(<><div className="mx-auto">
+                   <h2 className="text-2xl p-10">Sorry there is no booking</h2>
+        </div>
+        </>)
+       }
+        
 
-        </tbody>
-    </table>
-    <button onClick={addPayment} className="border rounded-md bg-green-500 text-white shadow-md ">Pay{totalPrice + 8.97}</button>
-    </div>
+    
+   
 
         </div>
         

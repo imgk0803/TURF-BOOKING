@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useDispatch } from "react-redux"
+import { logout } from "../features/user/userSlice"
 
 export default function Account(){
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const[message , setmessage]= useState('')
     const[view , setview] = useState("transaction")
@@ -17,7 +19,6 @@ export default function Account(){
     const user = JSON.parse(localStorage.getItem('user'))
     const token = localStorage.getItem('token')
     useEffect(()=>{
-    console.log(user)
           axios.get("http://localhost:3000/api/user/payments")
           .then(res=> setpayments(res.data.filter(item=>user._id === item.user)))
           .catch(err=>alert("something went wrong"))
@@ -29,6 +30,14 @@ export default function Account(){
           
           
     },[]);
+    const logOut=()=>{
+         localStorage.setItem('user','')
+         localStorage.setItem('role','')
+         localStorage.setItem('token',null)
+          dispatch(logout())
+          navigate('/signin')
+
+    }
     const updatePassword = async(e)=>{
     e.preventDefault()
     try{
@@ -40,7 +49,6 @@ export default function Account(){
             }
             const res = await axios.patch('http://localhost:3000/api/user/updatepwd' , body)
             setmessage(res.data)
-            console.log("update password >>> ",res)
             setTimeout(()=>{
                 setconfirm('');
                 setcurrent('')
@@ -64,7 +72,6 @@ export default function Account(){
             phone : phone
            }
            const res = await axios.patch('http://localhost:3000/api/user/updateprofile' , body)
-           console.log(res)
            localStorage.setItem('user',JSON.stringify(res.data.updateduser))
         }
         catch(err){
@@ -85,7 +92,7 @@ export default function Account(){
                 </div>
                 <button onClick={()=>setview("transaction")} className="bg-green-500 rounded-md shadow-md text-white  w-40">Transactions</button>
                 <button onClick={()=>setview("editprofile")} className="bg-green-500 rounded-md shadow-md text-white w-40">Edit profile</button>
-                 <button onClick={()=>{navigate('/signin',{new:true})}}  className="bg-green-500 rounded-md shadow-md text-white w-40">Logout</button>
+                 <button onClick={logOut}  className="bg-green-500 rounded-md shadow-md text-white w-40">Logout</button>
              </div>
              <div className="flex flex-grow m-0 min-h-screen">
                 {
@@ -112,11 +119,11 @@ export default function Account(){
                                           <h2 className="p-3 text-2xl border-b-2">Update password</h2>
                                           <form onSubmit={updatePassword} className=" flex flex-col w-1/2 gap-3 p-3  rounded-md shadow-sm items-start justify-center" action="submit">
                                             <label htmlFor="current">current password</label>
-                                            <input onChange={(e)=>{setcurrent(e.target.value)}} value={current} type="text" className="w-full outline-none border rounded-md shadow-sm p-1" />
+                                            <input onChange={(e)=>{setcurrent(e.target.value)}} value={current} type="text" className="w-full dark:bg-gray-900 outline-none border rounded-md shadow-sm p-1" />
                                             <label htmlFor="password">new password</label>
-                                            <input onChange={(e)=>{setpassword(e.target.value)}} value={password} className="w-full border outline-none rounded-md shadow-sm p-1" type="text" />
+                                            <input onChange={(e)=>{setpassword(e.target.value)}} value={password} className="w-full  dark:bg-gray-900 border outline-none rounded-md shadow-sm p-1" type="text" />
                                             <label htmlFor="confirm">confirm password</label>
-                                            <input onChange={(e)=>{setconfirm(e.target.value)}} value={confirm} className="w-full border rounded-md outline-none shadow-sm p-1" type="text" />
+                                            <input onChange={(e)=>{setconfirm(e.target.value)}} value={confirm} className="w-full  dark:bg-gray-900 border rounded-md outline-none shadow-sm p-1" type="text" />
                                             <span className={`
                                                 ${message && message === "password changed successfully" ? "text-green-500" : "text-red-500"}`}>
                                                  {message && message}</span>
@@ -124,13 +131,13 @@ export default function Account(){
                                             <button type="submit" className="bg-green-500 text-center mt-2 w-full text-white p-2 rounded-md">update password</button>
                                           </form>
                                           <h2 className="p-3 text-2xl border-b-2">Update profile</h2>
-                                         <form onSubmit={editProfile} className="bg-slate-200flex flex-col  w-1/2 gap-2 p-3 border rounded-md shadow-sm items-start justify-center" action="submit">
+                                         <form onSubmit={editProfile} className="bg-slate-200 flex  dark:bg-gray-900 flex-col  w-1/2 gap-2 p-3 border rounded-md shadow-sm items-start justify-center" action="submit">
                                                <label htmlFor="username">username</label>
-                                               <input onChange={(e)=>(setUsername(e.target.value))} className="w-full outline-none border rounded-md shadow-sm p-1" value={userName} type="text" />
+                                               <input onChange={(e)=>(setUsername(e.target.value))} className="w-full  dark:bg-gray-900 outline-none border rounded-md shadow-sm p-1" value={userName} type="text" />
                                                <label htmlFor="username">email</label>
-                                               <input  onChange={(e)=>(setEmail(e.target.value))} className="w-full outline-none border rounded-md shadow-sm p-1" value={email} type="text" />
+                                               <input  onChange={(e)=>(setEmail(e.target.value))} className="w-full  dark:bg-gray-900 outline-none border rounded-md shadow-sm p-1" value={email} type="text" />
                                                <label htmlFor="phone">phone</label>
-                                               <input  onChange={(e)=>(setPhone(e.target.value))} className="w-full outline-none border rounded-md shadow-sm p-1" value={phone} type="text" />
+                                               <input  onChange={(e)=>(setPhone(e.target.value))} className="w-full  dark:bg-gray-900 outline-none border rounded-md shadow-sm p-1" value={phone} type="text" />
                                                <button className="bg-green-500 mt-2 text-center w-full text-white p-1 rounded-md"  type="submit">update details</button>
                                          </form>
 

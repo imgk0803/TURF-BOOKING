@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import './index.css'
 import Root from './routes/root';
+import NoUser from './routes/noUser';
+import Unauthorized from './routes/unAuthorized';
 import Center from './routes/center';
 import LoginAndSignin from './routes/login';
 import Signin from './components/signin';
@@ -24,6 +26,9 @@ import AccountManager from './routes/managerAccount';
 import ManagerDashboard from './managerRoute/managerDashboard';
 import store from './app/store'
 import { Provider } from 'react-redux'
+import ProtectedRoutes from './routes/protectedRoutes';
+import ErrorComponent from './components/errorComponent';
+import TurfReview from './routes/turfReviews';
 
 const router = createBrowserRouter([
   {
@@ -48,59 +53,82 @@ const router = createBrowserRouter([
     path: "root",
     element: <Root/>,
     children: [
-   
+      {
+        path : "nouserfound",
+        element : <NoUser/>
+      },
+      {
+        path: "unauthorized",
+        element: <Unauthorized />,
+      },      
       {
         path: "home",
         element: <Center />,
+        errorElement : <ErrorComponent/>
       },
       {
         path:"turf/:turfid",
         element:<TurfSingle/>,
+        errorElement : <ErrorComponent/>
       },
       {
         path:"booking/:turfid",
-        element:<Booking/>
+        element:<Booking/>,
+        errorElement : <ErrorComponent/>
       },
       {
         path:'checkout/',
-        element:<Checkout/>
+        element:<Checkout/>,
+        errorElement : <ErrorComponent/>
       },
       {
          path : 'mybookings',
-         element : <MyBookings/>
+         element : <MyBookings/>,
+         errorElement : <ErrorComponent/>
+      },
+      {
+         path : 'reviews',
+         element : <TurfReview/>,
+         
       },
       {
         path:'profile',
-        element: <Account/>
+        element: <Account/>,
+        errorElement : <ErrorComponent/>
       },
 
       {
         path:'profileadmin',
-        element : <AccountAdmin/>,
+        element :(<ProtectedRoutes allowedRole={'admin'} element={<AccountAdmin/>}/>)
       },
       {
           path : 'profilemanager',
-          element : <AccountManager/>
+          element :(<ProtectedRoutes allowedRole={'manager'} element={<AccountManager/>}/>)
       },
       {
           path : 'updateturf/:turfid',
-          element : <Updateturf/>
+          element :(
+            <ProtectedRoutes allowedRole={'admin'} element={<Updateturf/>}/>
+         )
       },
       {
           path : 'createturf',
-          element : <AddTurf/>
+          element :(
+            <ProtectedRoutes allowedRole={"admin"} element={<AddTurf/>}/>
+          ) 
       },
       {
           path:'addcourt/:turfid',
-          element: <Addcourt/>
+          element:(<ProtectedRoutes allowedRole={'admin'} element={<Addcourt/>}/>)
       },
       {
         path:'admindashboard',
-        element: <AdminDashboard/>
+        element:(<ProtectedRoutes allowedRole={'admin'} element={<AdminDashboard/>}/>)
       },
       {
         path:'managerdashboard',
-        element: <ManagerDashboard/>
+        element:(<ProtectedRoutes allowedRole={'manager'} element={<ManagerDashboard/>}/>)
+               
       }
         
       

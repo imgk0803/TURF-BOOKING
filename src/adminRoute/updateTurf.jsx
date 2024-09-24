@@ -21,7 +21,6 @@ export default function UpdateTurf(){
             
         })
     },[])
-    console.log(courts)
     const handleSubmit=async(e)=>{
         e.preventDefault();
      try{
@@ -38,7 +37,7 @@ export default function UpdateTurf(){
               "Content-Type" : 'multipart/form-data'
           }
       })
-      .then(res=>console.log(res.data))
+      .then(res=>console.log('turf updated'))
      }
         
      catch(err){
@@ -47,15 +46,15 @@ export default function UpdateTurf(){
     }
     return(
         <>
-            <section className="p-5">
+            <section className="p-5 dark:bg-gray-900">
                 <button onClick={()=>{navigate(-1)}} className="p-1 bg-green-500 rounded-md text-white">Back</button>
                 
                 <div className="p-2 flex flex-col items-center justify-center">
-                <h2 className="text-2xl font-semibold text-center mb-6">Update Turf</h2>
+                <h2 className="text-2xl font-semibold text-center dark:text-gray-300 mb-6">Update Turf</h2>
                 <span className="text-lg">{turf}</span>
                          <form className="space-y-4 w-1/2" onSubmit={handleSubmit}>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium dark:text-gray-300 text-gray-700">
                         Name:
                     </label>
                     <input
@@ -63,10 +62,10 @@ export default function UpdateTurf(){
                         name = 'turfname'
                         onChange={(e)=>{setTitle(e.target.value)}}
                         value={title}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border dark:bg-gray-900 border-gray-300 rounded-md p-2"
                         required
                     />
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium dark:text-gray-300 text-gray-700">
                         Description:
                     </label>
                     <textarea
@@ -74,12 +73,12 @@ export default function UpdateTurf(){
                     onChange={(e)=>{setDescription(e.target.value)}}
                     value={description}
 
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        className="mt-1 block w-full border dark:bg-gray-900 border-gray-300 rounded-md p-2"
                         rows="3"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium dark:bg-gray-900 dark:text-gray-300 text-gray-700">
                         Image:
                     </label>
                     <input
@@ -98,7 +97,7 @@ export default function UpdateTurf(){
 
 
              <div className="p-2">
-                <h1 className="text-xl font-bold ">Update Courts</h1>
+                <h1 className="text-xl dark:text-gray-300 font-bold ">Update Courts</h1>
              </div>
             <div className="grid grid-cols-3 gap-4 p-3">
             { courts && courts.map(court=>(

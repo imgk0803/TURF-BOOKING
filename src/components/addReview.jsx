@@ -19,7 +19,6 @@ export default function Review({toggle,turf_id}){
       turfid : turf_id,
       userid : userid
     })
-    console.log(res)
     toggle();
    }
    catch(err){
@@ -30,14 +29,14 @@ export default function Review({toggle,turf_id}){
  return(
     <>
           <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-50 ">
-            <div className="w-1/2 bg-white p-5 rounded-lg">
-            <h2 className="text-2xl text-center">rate turfname</h2>
-            <div className="flex items-center mb-4 bg-white">
-               <span className="mr-2">Rating:</span>
+            <div className="w-1/2 bg-white dark:bg-gray-700 p-5 rounded-lg">
+            <h2 className="text-2xl dark:text-gray-300 text-center">rate turfname</h2>
+            <div className="flex items-center mb-4 dark:bg-gray-700 bg-white">
+               <span className="mr-2 dark:bg-gray-700 dark:text-gray-300">Rating:</span>
                  {[1, 2, 3, 4, 5].map((star) => (
                <svg
               key={star}
-              className={`w-6 h-6 cursor-pointer ${rating >= star ? 'text-yellow-500' : 'text-gray-300'}`}
+              className={`w-6 dark:bg-gray-700 h-6 cursor-pointer ${rating >= star ? 'text-yellow-500' : 'text-gray-300'}`}
               onClick={() => handleRating(star)}
               fill="currentColor"
               viewBox="0 0 20 20"
@@ -47,7 +46,7 @@ export default function Review({toggle,turf_id}){
           ))}
         </div>
         <textarea
-          className="w-full h-24 p-2 border rounded mb-4"
+          className="w-full h-24 p-2 border rounded dark:bg-gray-700 mb-4"
           placeholder="Enter your review..."
           value={review}
           onChange={(e) => setReview(e.target.value)}

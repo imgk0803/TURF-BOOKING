@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import axios from "axios"
+import axiosInstance from "../utils/axiosInstance";
 export default function AddTurf(){
     const navigate = useNavigate()
     const[manager , setManager]= useState('')
@@ -26,7 +27,7 @@ export default function AddTurf(){
           formdata.append("image",image)       
           }
         const token = localStorage.getItem('token')
-        await axios.post("https://turfbooking-backend.onrender.com/api/admin/turf",formdata,{
+        await axiosInstance.post("/api/admin/turf",formdata,{
             headers : {
                 "Authorization" : `Bearer ${token}`,
                 "Content-Type" : 'multipart/form-data'

@@ -4,6 +4,7 @@ import {useParams } from "react-router-dom"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { addToCart, removeFromCart } from "../features/cart/cartslice"
+import axiosInstance from "../utils/axiosInstance"
 
 export default function Booking(){
     const navigate = useNavigate()
@@ -20,18 +21,20 @@ export default function Booking(){
     const[date , setdate] = useState('')
     const[time , settime] = useState('')
     const[today ,setToday] = useState({})
+    const currentDate = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+    const formattedDate = new Date(currentDate).toISOString().split("T")[0];
     useEffect(()=>{
-            axios.get(`https://turfbooking-backend.onrender.com/api/user//turf/getcourt/${turfid}`)
+            axiosInstance.get(`/api/user//turf/getcourt/${turfid}`)
             .then(res=>{
               setCourts(res.data.turf.court)
               setplace(res.data.turf.city)
               setturfname(res.data.turf.title)
-              setToday(new Date().toISOString().split('T')[0])
 
               
             }
             )
     },[click])
+    console.log("today", formattedDate)
     const handlechange = async(e)=>{
     e.preventDefault()
       try{  
@@ -64,7 +67,8 @@ export default function Booking(){
             price : price
           }
 
-          const response = await axios.post(`https://turfbooking-backend.onrender.com/api/user/${userid}/court/${courtid}`,reqbody)
+          const response = await axiosInstance.post(`/api/user/${userid}/court/${courtid}`,reqbody)
+          console.log("res",response)
           const booking = {
             turfname :turfname,
             courtname : selectedCourt.sport,
@@ -96,7 +100,7 @@ export default function Booking(){
   const removeBooking = async(id)=>{
       try{
         dispatch(removeFromCart(id))
-        const res  = await axios.delete(`https://turfbooking-backend.onrender.com/api/user/deletebooking/${id}`)
+        const res  = await axiosInstance.delete(`/api/user/deletebooking/${id}`)
         setClick(!click)
       }
       catch(err){
@@ -127,7 +131,8 @@ export default function Booking(){
                      <div className="flex flex-row gap-5 items-center justify-around">
                      <label className=" dark:text-gray-300 font-semibold" htmlFor="court">Date:</label>
                      <input onChange={(e)=>{setdate(e.target.value)}} className=" dark:text-gray-300 dark:bg-gray-900  shadow-md text-slate-600 border border-slate-200 p-1 h-8 rounded-md w-48 outline-none" type="date" id="bookdate" name="bookdate" 
-                     min={today} />
+                     min={formattedDate}
+                     max={formattedDate} />
                      </div>
                      <div className="flex flex-row gap-5 items-center justify-around">
                        <label className="font-semibold  dark:text-gray-300" htmlFor="court">Timeslot:</label>

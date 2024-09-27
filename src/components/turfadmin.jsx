@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState ,useEffect } from "react"
 import axios from "axios"
 import { averageRating } from "../hooks/useAverageRating"
+import axiosInstance from "../utils/axiosInstance";
 export default function TurfAdmin({_id,city,dist,image,court}){
     const navigate = useNavigate();
     const role = localStorage.getItem('role')
@@ -9,7 +10,7 @@ export default function TurfAdmin({_id,city,dist,image,court}){
     const [ratings ,setRatings] = useState()
     const[title ,setTitle] = useState('')
     useEffect(()=>{
-         axios.get(`https://turfbooking-backend.onrender.com/api/user/getoneturf/${_id}`)
+         axiosInstance.get(`/api/user/getoneturf/${_id}`)
          .then(res => {
             setReview(averageRating(res.data.reviews));
             setRatings(res.data.reviews.length)

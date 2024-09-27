@@ -3,17 +3,20 @@ import { useEffect ,useState } from "react";
 import axios from "axios";
 import TurfAdmin from "../components/turfadmin";
 import AddManager from "../components/addManager";
+import axiosInstance from "../utils/axiosInstance";
 export default function AdminDashboard(){
     const role = localStorage.getItem('role')
     const [turfs,setturf] = useState([]);
     const[turfListing , setList] = useState([])
     const [searchTerm , setSearchTerm] = useState('')
     const [seen , setSeen] = useState(false);
+    const [message , setMessage] = useState('')
+    const[isLoading , setLoading] = useState(false)
     const togglePop=()=>{
         setSeen(!seen)
     }
     useEffect(()=>{
-       axios.get("https://turfbooking-backend.onrender.com/api/user/turf")
+       axiosInstance.get("/api/user/turf")
        .then(res =>{
            setturf(res.data)
        })
@@ -25,27 +28,33 @@ export default function AdminDashboard(){
         setList(filtered)
     }
     const updateslot = async () => {
+    setLoading(true)
+    setMessage('')
     const token = localStorage.getItem('token');
     
     try {
-        const response = await axios.post("https://turfbooking-backend.onrender.com/api/admin/update-timeslots", null, {
+        const response = await axiosInstance.post("/api/admin/update-timeslots", null, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
+        setMessage(response.data.message)
     } catch (error) {
         console.error(error);
     }
 };
 
     const resetslot = async()=>{
+        setLoading(true)
+        setMessage('')
         const token = localStorage.getItem('token')
         try{
-            await axios.post("https://turfbooking-backend.onrender.com/api/admin/reset-slots",null,{
+           const response =  await axiosInstance.post("/api/admin/reset-slots",null,{
                 headers : {
                     'Authorization' : `Bearer ${token}`
                 }
             })
+            setMessage(response.data.message)
         }
         catch(err){
             console.log(err)
@@ -85,6 +94,23 @@ export default function AdminDashboard(){
                 <div> 
                 </div>
                 {seen && seen?<AddManager toggle={togglePop}/>:null }
+                {isLoading && (
+                    <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-50">
+                    {message ? (
+                        <div className="w-1/2 h-1/2 flex flex-col items-center justify-center bg-white rounded-lg p-4">
+                        <p>{message}</p>
+                        <button onClick={() => {setMessage('')
+                            setLoading(false)
+                        }}
+                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded">Close</button>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center bg-white w-1/2 h-1/2 rounded-lg p-4">
+                        <p>Loading...</p>
+                        </div>
+                    )}
+                    </div>
+                )}
                 <div className="grid grid-cols-3 gap-5 ">
                     {
                     turfs.map(t=>(

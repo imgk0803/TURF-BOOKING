@@ -2,6 +2,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import axios from "axios"
 import UpdateCourt from "./courtUpdate";
+import axiosInstance from "../utils/axiosInstance";
 export default function UpdateTurf(){
     const location = useLocation()
     const {turfid} = useParams()
@@ -12,7 +13,7 @@ export default function UpdateTurf(){
     const [description , setDescription]=useState('')
     const[image , setImage]=useState(null)
     useEffect(()=>{
-        axios.get(`https://turfbooking-backend.onrender.com/api/user/getoneturf/${turfid}`)
+        axiosInstance.get(`/api/user/getoneturf/${turfid}`)
         .then(res=>{
             setCourts(res.data.court)
             setTitle(res.data.title)
@@ -31,7 +32,7 @@ export default function UpdateTurf(){
         formdata.append("image",image)       
         }
       const token = localStorage.getItem('token')
-      await axios.patch(`https://turfbooking-backend.onrender.com/api/admin/updateturf/${turfid}`,formdata,{
+      await axiosInstance.patch(`/api/admin/updateturf/${turfid}`,formdata,{
           headers : {
               "Authorization" : `Bearer ${token}`,
               "Content-Type" : 'multipart/form-data'

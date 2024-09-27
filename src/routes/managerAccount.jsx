@@ -3,6 +3,7 @@ import axios from "axios"
 import { logout } from "../features/user/userSlice"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
+import axiosInstance from "../utils/axiosInstance"
 
 
 export default function Accountadmin(){
@@ -20,7 +21,7 @@ export default function Accountadmin(){
     const user = JSON.parse(localStorage.getItem('user'))
     const token = localStorage.getItem('token')
     useEffect(()=>{
-          axios.get("https://turfbooking-backend.onrender.com/api/user/payments")
+          axiosInstance.get("/api/user/payments")
           .then(res=> setpayments(res.data.filter(item=>user._id === item.user)))
           .catch(err=>alert("something went wrong"))
           setUsername(user.username);
@@ -40,7 +41,7 @@ export default function Accountadmin(){
                 password : password,
                 confirm : confirm
             }
-            const res = await axios.patch('https://turfbooking-backend.onrender.com/api/user/updatepwd' , body)
+            const res = await axiosInstance.patch('/api/user/updatepwd' , body)
             setmessage(res.data)
             setTimeout(()=>{
                 setconfirm('');
@@ -72,7 +73,7 @@ export default function Accountadmin(){
             email : email , 
             phone : phone
            }
-           const res = await axios.patch('https://turfbooking-backend.onrender.com/api/user/updateprofile' , body)
+           const res = await axiosInstance.patch('https://turfbooking-backend.onrender.com/api/user/updateprofile' , body)
            localStorage.setItem('user',JSON.stringify(res.data.updateduser))
         }
         catch(err){

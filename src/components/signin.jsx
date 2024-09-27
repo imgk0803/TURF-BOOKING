@@ -3,6 +3,7 @@ import { Link,useNavigate } from "react-router-dom"
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "../features/user/userSlice";
+import axiosInstance from "../utils/axiosInstance";
 export default function Signin(){
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -13,7 +14,7 @@ export default function Signin(){
      e.preventDefault();
      try{
         const body = {email,password}
-        const response = await axios.post('https://turfbooking-backend.onrender.com/api/user/login',body)
+        const response = await axiosInstance.post('/api/user/login',body)
        if(response.data === "password not match"){
            
             setmessage("Incorrect Password !")

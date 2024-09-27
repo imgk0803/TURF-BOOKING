@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import axiosInstance from "../utils/axiosInstance";
 
 export default function AddManager({toggle}){
 const [email,setEmail]=useState('');
@@ -17,7 +18,7 @@ const handleSubmit=async(e)=>{
         role : "manager",
         password,
        }
-       const response = await axios.post('https://turfbooking-backend.onrender.com/api/admin/addmanager',body, {
+       const response = await axiosInstance.post('/api/admin/addmanager',body, {
         headers: {
           Authorization: `Bearer ${token}`
         }

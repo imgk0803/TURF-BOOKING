@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 export const sortedTurfSlice = createSlice({
   name : 'turfs',
   initialState :{
@@ -18,8 +19,8 @@ export const{setSortedTurfs} = sortedTurfSlice.actions;
 export const getSortedTurfs = (city) => async (dispatch) => {
   try {
     const { lat, lon } = city;
-    const response = await axios.get(
-      `https://turfbooking-backend.onrender.com/api/user/turfs?lat=${lat}&lon=${lon}`
+    const response = await axiosInstance.get(
+      `/api/user/turfs?lat=${lat}&lon=${lon}`
     );
     
     dispatch(setSortedTurfs({sorted : response.data,

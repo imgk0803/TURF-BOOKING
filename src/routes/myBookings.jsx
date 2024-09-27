@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import BookingComponent from "../components/bookingComponent";
 import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 export default function MyBookings(){
     const user  = JSON.parse(localStorage.getItem('user'))
     const [bookings, setbookings] = useState([])
     useEffect(()=>{
-        axios.get("https://turfbooking-backend.onrender.com/api/user/bookings")
+        axiosInstance.get("/api/user/bookings")
         .then(res=> {
         setbookings(res.data.filter(item =>user._id === item.user ));
        

@@ -2,13 +2,14 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { averageRating } from "../hooks/useAverageRating"
+import axiosInstance from "../utils/axiosInstance"
 export default function Turf({_id,title,city,dist,image,court}){
     const [review ,setReview] = useState([])
     const [ratings ,setRatings] = useState()
     const newCourt = court.map(c=>c.sport)
     const sports = [... new Set(newCourt) ]
     useEffect(()=>{
-         axios.get(`/api/user/getoneturf/${_id}`)
+         axiosInstance.get(`/api/user/getoneturf/${_id}`)
          .then(res => {
             setReview(averageRating(res.data.reviews));
             setRatings(res.data.reviews.length)
@@ -23,7 +24,7 @@ export default function Turf({_id,title,city,dist,image,court}){
             <img className="h-52 object-cover rounded-lg"src={image} alt="" />
             <div className="flex flex-row justify-between font-semibold items-center">
             <h3 className="text-lg dark:text-gray-300">{title}</h3>
-            <span className="text-xs  dark:text-gray-300"><span className="material-symbols-outlined text-yellow-500 text-sm pt-1">star</span>{review}({ratings})</span></div>
+            <span className="text-xs  dark:text-gray-300"><span className="material-symbols-outlined text-yellow-500 text-sm pt-1">star</span>{review}(<span>{ratings}</span>)</span></div>
             <span className=" dark:text-gray-300">{city},{dist}</span>
             <ul className="flex flex-row justify-start items-center gap-1 ">
                 {

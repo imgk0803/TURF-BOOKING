@@ -1,6 +1,7 @@
 import axios from "axios"
 import {useState } from "react"
 import { useNavigate } from "react-router-dom"
+import axiosInstance from "../utils/axiosInstance"
 
 
 export default function Signup(){
@@ -21,7 +22,7 @@ export default function Signup(){
               }
               else{
                 const body = {username , email , phone , password}
-                const response = await axios.post('https://turfbooking-backend.onrender.com/api/user/signin',body)
+                const response = await axiosInstance.post('/api/user/signin',body)
                 alert(`please Login.. ${username}`)
                 navigate('/signin')
               }

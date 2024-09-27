@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
+import axiosInstance from "../utils/axiosInstance"
 
 export default function Addcourt(){
     const navigate = useNavigate()
@@ -21,7 +22,7 @@ export default function Addcourt(){
            price,
            size
         }
-         axios.post(`https://turfbooking-backend.onrender.com/api/admin/addcourt/${turfid}`,body,{
+         axiosInstance.post(`/api/admin/addcourt/${turfid}`,body,{
             headers : {
                 'Authorization':`Bearer ${token}`
             }

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import Turf from "../components/turf"
 import { useSelector } from "react-redux";
+import axiosInstance from "../utils/axiosInstance";
 export default function Center(){
 const turfsorted = useSelector(state=>state.turfs.SortedTurf)
 const[turfListing , setList] = useState([])
 const [turfs,setturf] = useState([]);
 const [searchTerm , setSearchTerm] = useState('')
    useEffect(()=>{
-       axios.get("https://turfbooking-backend.onrender.com/api/user/turf")
+       axiosInstance.get("/api/user/turf")
       .then(res =>{
        
           setturf(res.data)
@@ -24,9 +25,9 @@ const [searchTerm , setSearchTerm] = useState('')
    
     return(
         <>
-           <section className="flex flex-col bg-inherit w-full dark:bg-gray-900">
-            <div className="flex flex-row justify-start gap-40 items-center mb-3 ml-3  p-3 h-16 w-screen">
-             <div className="flex flex-row justify-between items-center dark:border-slate-700 dark:bg-gray-900 dark:border bg-white shadow-md  rounded-md w-80 p-1">
+           <section className="flex flex-col dark:bg-gray-900">
+            <div className="flex flex-row justify-start dark:bg-gray-900 gap-40 items-center mb-3 ml-3  p-3 h-16 ">
+             <div className="flex flex-row justify-between items-center dark:border-slate-700 dark:bg-gray-900 dark:border bg-white shadow-md  rounded-md  p-1">
                 <input onChange={(e)=>{setSearchTerm(e.target.value)}} className="outline-none dark:bg-gray-900 dark:text-gray-300 p-1 "placeholder="Search turfs" type="text" />
              <button onClick={handleSearch}><span className="material-symbols-outlined pt-1 text-slate-400">search</span></button></div> 
               <div className="flex flex-col items-center justify-center pl-6 text-md dark:text-gray-300 text-slate-600

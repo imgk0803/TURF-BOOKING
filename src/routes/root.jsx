@@ -127,7 +127,7 @@ export default function Root(){
     <main className="pl-4 min-h-screen pt-20 dark:bg-gray-900 dark:text-white w-screen">
     <Outlet/>
     </main>
-    <footer className="h-16 flex justify-between items-center p-4 border-t-2 dark:bg-gray-900 w-full">
+    <footer className="h-16 flex justify-between items-center p-4 border-t-2 dark:bg-gray-900 dark:border-slate-600 w-screen ">
   {/* Left Section: App Name */}
   <div className="flex flex-col">
     <h1 className="text-2xl font-mono dark:text-green-400 text-green-600 m-0">BOOKmyTURF</h1>

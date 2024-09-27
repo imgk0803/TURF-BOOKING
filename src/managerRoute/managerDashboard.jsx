@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 export default function ManagerDashboard(){
     const navigate = useNavigate()
     const[bookings , setBookings] =useState([])
@@ -14,7 +15,7 @@ export default function ManagerDashboard(){
     const user = JSON.parse(localStorage.getItem('user'))
     const [today ,setToday ]= useState('')
     useEffect(()=>{
-            axios.get(`https://turfbooking-backend.onrender.com/api/manager/getmanagerbookings/${user._id}`,{
+            axiosInstance.get(`/api/manager/getmanagerbookings/${user._id}`,{
                headers : {
                "Authorization" : `Bearer ${token}`
            }})
@@ -49,7 +50,7 @@ export default function ManagerDashboard(){
                  end
             
         }
-        await axios.patch(`https://turfbooking-backend.onrender.com/api/manager/court/${courtid}/booking/${selectedBooking}`,body,{
+        await axiosInstance.patch(`/api/manager/court/${courtid}/booking/${selectedBooking}`,body,{
             headers : {
                 'Authorization' : `Bearer ${token}`
             }
@@ -69,7 +70,7 @@ export default function ManagerDashboard(){
     const cancelBooking = async(id)=>{
 
         try{
-            await axios.patch(`https://turfbooking-backend.onrender.com/api/manager/cancelbooking/${selectedBooking}`,{},{
+            await axiosInstance.patch(`/api/manager/cancelbooking/${selectedBooking}`,{},{
                 headers : {
                     'Authorization' : `Bearer ${token}`
                 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import axiosInstance from "../utils/axiosInstance";
 
 
 export default function Review({toggle,turf_id}){
@@ -13,7 +14,7 @@ export default function Review({toggle,turf_id}){
         e.preventDefault()
    try{
     
-    const res = await axios.post('https://turfbooking-backend.onrender.com/api/user/turf/addreview',{
+    const res = await axiosInstance.post('/api/user/turf/addreview',{
       rating : rating,
       turfreview : review,
       turfid : turf_id,

@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux"
-import axios from "axios"
 import { removeFromCart } from "../features/cart/cartslice"
+import axiosInstance from "../utils/axiosInstance"
 export default function BookingComponent({bookingid , courtname,size,price,time,date,turfname}) {
     const dispatch = useDispatch()
     const removeBooking = async(id)=>{
         try{
           dispatch(removeFromCart(id))
-          const res  = await axios.delete(`https://turfbooking-backend.onrender.com/api/user/deletebooking/${id}`)
+          const res  = await axiosInstance.delete(`/api/user/deletebooking/${id}`)
         }
         catch(err){
                 console.log("error::", err)
